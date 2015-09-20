@@ -19,14 +19,22 @@
 // System includes
 #include <stdio.h>
 #include <assert.h>
+//#include <time.h>
+#include <math.h>       /* sqrt */
 
+int frequency_of_primes(int n) {
+	int i, j;
+	int freq = n - 1;
+	for (i = 2; i <= n; ++i) for (j = sqrt((long double)i); j>1; --j) if (i%j == 0) { --freq; break; }
+	return freq;
+}
 // CUDA runtime
 #include <cuda_runtime.h>
 
 // helper functions and utilities to work with CUDA
 #include <helper_functions.h>
 #include <helper_cuda.h>
-
+#define clock_t unsigned long
 // This kernel computes a standard parallel reduction and evaluates the
 // time it takes to do that for each block. The timing results are stored
 // in device memory.
@@ -38,7 +46,10 @@ __global__ static void timedReduction(const float *input, float *output, clock_t
     const int tid = threadIdx.x;
     const int bid = blockIdx.x;
 
-    if (tid == 0) timer[bid] = clock();
+	if (tid == 0) {
+		timer[bid] = (clock_t)clock();// 1000000;
+		printf("In block %d, Start click = %lu.\n", bid, timer[bid]);
+	}
 
     // Copy input.
     shared[tid] = input[tid];
@@ -66,7 +77,8 @@ __global__ static void timedReduction(const float *input, float *output, clock_t
 
     __syncthreads();
 
-    if (tid == 0) timer[bid+gridDim.x] = clock();
+	if (tid == 0) timer[bid + gridDim.x] = (clock_t)clock();// 1000000;
+//	if (tid == 0) timer[bid + gridDim.x] -= timer[bid];
 }
 
 
@@ -77,8 +89,11 @@ __global__ static void timedReduction(const float *input, float *output, clock_t
 // mechanism between blocks, we measure the clock once for each block. The clock
 // samples are written to device memory.
 
-#define NUM_BLOCKS    64
-#define NUM_THREADS   256
+#define NUM_BLOCKS    4096
+//64
+//#define NUM_THREADS  1024 
+#define NUM_THREADS   1024
+
 
 // It's interesting to change the number of blocks and the number of threads to
 // understand how to keep the hardware busy.
@@ -99,6 +114,20 @@ __global__ static void timedReduction(const float *input, float *output, clock_t
 // Start the main CUDA Sample here
 int main(int argc, char **argv)
 {
+	clock_t t1;
+	int f;
+	t1 = clock();
+	printf("Calculating...\n");
+	f = frequency_of_primes(99999);
+	printf("The number of primes lower than 100,000 is: %d\n", f);
+	t1 = clock() - t1;
+	printf("Test %d clicks (%f seconds).\n", clock(), ((float)clock()) / CLOCKS_PER_SEC);	// CLOCKS_PER_SEC IS INCORRENT IN THIS CONTEXT
+	printf("Test %d clicks (%f seconds).\n", clock(), ((float)clock()) / CLOCKS_PER_SEC);	// CLOCKS_PER_SEC IS INCORRENT IN THIS CONTEXT
+	printf("Test %d clicks (%f seconds).\n", clock(), ((float)clock()) / CLOCKS_PER_SEC);	// CLOCKS_PER_SEC IS INCORRENT IN THIS CONTEXT
+	printf("Test %lu clicks (%f seconds).\n", clock(), ((float)clock()) / CLOCKS_PER_SEC);	// CLOCKS_PER_SEC IS INCORRENT IN THIS CONTEXT
+	printf("Test %lu clicks (%f seconds).\n", clock(), ((float)clock()) / CLOCKS_PER_SEC);	// CLOCKS_PER_SEC IS INCORRENT IN THIS CONTEXT
+	printf("It took me %d clicks (%f seconds).\n", t1, ((float)t1) / CLOCKS_PER_SEC);
+//	return 0;
     printf("CUDA Clock sample\n");
 
     // This will pick the best possible CUDA capable device
@@ -122,27 +151,36 @@ int main(int argc, char **argv)
 
     checkCudaErrors(cudaMemcpy(dinput, input, sizeof(float) * NUM_THREADS * 2, cudaMemcpyHostToDevice));
 
+	clock_t host_clock = clock();
     timedReduction<<<NUM_BLOCKS, NUM_THREADS, sizeof(float) * 2 *NUM_THREADS>>>(dinput, doutput, dtimer);
+	checkCudaErrors(cudaDeviceSynchronize());
+	clock_t host_elap = clock() - host_clock;
 
     checkCudaErrors(cudaMemcpy(timer, dtimer, sizeof(clock_t) * NUM_BLOCKS * 2, cudaMemcpyDeviceToHost));
+//	host_elap = clock() - host_clock;
+
 
     checkCudaErrors(cudaFree(dinput));
     checkCudaErrors(cudaFree(doutput));
     checkCudaErrors(cudaFree(dtimer));
 
 
-    // Compute the difference between the last block end and the first block start.
-    clock_t minStart = timer[0];
-    clock_t maxEnd = timer[NUM_BLOCKS];
+    // Compute the difference between the last block end and the first block start.		// CAN'T - CLOCKS FOR EACH BLOCK AREN'T IN SYNC ON GTX 980 FOR SOME REASON???
+    clock_t minStart = timer[0];														// Clock counters are per SM (may be the reason)
+    clock_t maxEnd = timer[NUM_BLOCKS];													// printf in kernel uses almost double the registers from 15 to 25?
+																						// so not too many blocks can run on the same SM			DAVE
 
     for (int i = 1; i < NUM_BLOCKS; i++)
     {
         minStart = timer[i] < minStart ? timer[i] : minStart;
         maxEnd = timer[NUM_BLOCKS+i] > maxEnd ? timer[NUM_BLOCKS+i] : maxEnd;
+		printf("Block %d, ticks = %lu.\n", i, timer[NUM_BLOCKS + i] - timer[i]);
     }
 
-    printf("Total clocks = %d\n", (int)(maxEnd - minStart));
-
+//  printf("Total clocks = %lu\n", (maxEnd - minStart));
+	printf(" Host clicks = %lu\n", host_elap);
+//	clock_t t = maxEnd - minStart;
+//	printf("It took me %d clicks (%f seconds).\n", t, ((float)t) / CLOCKS_PER_SEC);
 
     // cudaDeviceReset causes the driver to clean up all state. While
     // not mandatory in normal operation, it is good practice.  It is also

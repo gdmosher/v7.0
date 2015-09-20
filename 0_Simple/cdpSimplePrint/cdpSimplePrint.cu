@@ -78,7 +78,23 @@ __global__ void cdp_kernel(int max_depth, int depth, int thread, int parent_uid)
 
     cdp_kernel<<<gridDim.x, blockDim.x>>>(max_depth, depth, threadIdx.x, s_uid);
 }
-
+//////////////////////////////////////////////////////
+// check_cuda_errors
+// copied from purdue DAVE
+//////////////////////////////////////////////////////
+inline void check_cuda_errors(const char *filename, const int line_number)
+{
+#define DEBUG
+#ifdef DEBUG
+	cudaThreadSynchronize();
+	cudaError_t error = cudaGetLastError();
+	if (error != cudaSuccess)
+	{
+		printf("CUDA error at %s:%i: %s\n", filename, line_number, cudaGetErrorString(error));
+		exit(-1);
+	}
+#endif
+}
 ////////////////////////////////////////////////////////////////////////////////
 // Main entry point.
 ////////////////////////////////////////////////////////////////////////////////
@@ -176,7 +192,8 @@ int main(int argc, char **argv)
     // Launch the kernel from the CPU.
     printf("Launching cdp_kernel() with CUDA Dynamic Parallelism:\n\n");
     cdp_kernel<<<2, 2>>>(max_depth, 0, 0, -1);
-    checkCudaErrors(cudaGetLastError());
+	check_cuda_errors(__FILE__, __LINE__);    
+	checkCudaErrors(cudaGetLastError());
 
     // Finalize.
     checkCudaErrors(cudaDeviceSynchronize());

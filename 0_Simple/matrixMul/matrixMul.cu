@@ -248,7 +248,7 @@ int matrixMultiply(int argc, char **argv, int block_size, dim3 &dimsA, dim3 &dim
     }
 
     // Execute the kernel
-    int nIter = 300;
+    int nIter = 1;                              // WAS 300
 
     for (int j = 0; j < nIter; j++)
     {
@@ -415,9 +415,9 @@ int main(int argc, char **argv)
 
     // Use a larger block size for Fermi and above
     int block_size = (deviceProp.major < 2) ? 16 : 32;
-
-    dim3 dimsA(5*2*block_size, 5*2*block_size, 1);
-    dim3 dimsB(5*4*block_size, 5*2*block_size, 1);
+	int multiplier = 2;                                     // WAS 5
+    dim3 dimsA(multiplier*2*block_size, multiplier*2*block_size, 1);
+    dim3 dimsB(multiplier*4*block_size, multiplier*2*block_size, 1);
 
     // width of Matrix A
     if (checkCmdLineFlag(argc, (const char **)argv, "wA"))
@@ -453,6 +453,9 @@ int main(int argc, char **argv)
     printf("MatrixA(%d,%d), MatrixB(%d,%d)\n", dimsA.x, dimsA.y, dimsB.x, dimsB.y);
 
     int matrix_result = matrixMultiply(argc, argv, block_size, dimsA, dimsB);
+
+	printf("Press <Enter> to continue...");
+	getchar();
 
     exit(matrix_result);
 }

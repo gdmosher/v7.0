@@ -13,11 +13,11 @@
 .global .texref tex;
 .const .align 4 .b8 __cudart_i2opi_f[24] = {65, 144, 67, 60, 153, 149, 98, 219, 192, 221, 52, 245, 209, 87, 39, 252, 41, 21, 68, 78, 110, 131, 249, 162};
 
-.func  (.param .align 16 .b8 func_retval0[16]) _ZN72_INTERNAL_55_tmpxft_00009bc4_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff(
-	.param .b32 _ZN72_INTERNAL_55_tmpxft_00009bc4_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_0,
-	.param .b32 _ZN72_INTERNAL_55_tmpxft_00009bc4_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_1,
-	.param .b32 _ZN72_INTERNAL_55_tmpxft_00009bc4_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_2,
-	.param .b32 _ZN72_INTERNAL_55_tmpxft_00009bc4_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_3
+.func  (.param .align 16 .b8 func_retval0[16]) _ZN72_INTERNAL_55_tmpxft_00000cc8_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff(
+	.param .b32 _ZN72_INTERNAL_55_tmpxft_00000cc8_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_0,
+	.param .b32 _ZN72_INTERNAL_55_tmpxft_00000cc8_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_1,
+	.param .b32 _ZN72_INTERNAL_55_tmpxft_00000cc8_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_2,
+	.param .b32 _ZN72_INTERNAL_55_tmpxft_00000cc8_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_3
 )
 {
 	.local .align 16 .b8 	__local_depot0[32];
@@ -35,10 +35,10 @@ func_begin0:
 
 	mov.u64 	%rd1, __local_depot0;
 	cvta.local.u64 	%SP, %rd1;
-	ld.param.f32 	%f1, [_ZN72_INTERNAL_55_tmpxft_00009bc4_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_0];
-	ld.param.f32 	%f2, [_ZN72_INTERNAL_55_tmpxft_00009bc4_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_1];
-	ld.param.f32 	%f3, [_ZN72_INTERNAL_55_tmpxft_00009bc4_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_2];
-	ld.param.f32 	%f4, [_ZN72_INTERNAL_55_tmpxft_00009bc4_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_3];
+	ld.param.f32 	%f1, [_ZN72_INTERNAL_55_tmpxft_00000cc8_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_0];
+	ld.param.f32 	%f2, [_ZN72_INTERNAL_55_tmpxft_00000cc8_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_1];
+	ld.param.f32 	%f3, [_ZN72_INTERNAL_55_tmpxft_00000cc8_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_2];
+	ld.param.f32 	%f4, [_ZN72_INTERNAL_55_tmpxft_00000cc8_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff_param_3];
 tmp0:
 func_exec_begin0:
 	.loc	4 252 1
@@ -1245,7 +1245,7 @@ tmp38:
 	st.param.f32	[param3+0], %f209;
 	.param .align 16 .b8 retval0[16];
 	call.uni (retval0), 
-	_ZN72_INTERNAL_55_tmpxft_00009bc4_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff, 
+	_ZN72_INTERNAL_55_tmpxft_00000cc8_00000000_5_simpleTexture_kernel_cpp1_ii_tex11make_float4Effff, 
 	(
 	param0, 
 	param1, 
@@ -1870,10 +1870,10 @@ func_end1:
  .b8 48
  .b8 48
  .b8 48
- .b8 57
- .b8 98
+ .b8 48
  .b8 99
- .b8 52
+ .b8 99
+ .b8 56
  .b8 95
  .b8 48
  .b8 48
@@ -1967,10 +1967,10 @@ func_end1:
  .b8 48
  .b8 48
  .b8 48
- .b8 57
- .b8 98
+ .b8 48
  .b8 99
- .b8 52
+ .b8 99
+ .b8 56
  .b8 95
  .b8 48
  .b8 48
@@ -2222,10 +2222,10 @@ func_end1:
  .b8 48
  .b8 48
  .b8 48
- .b8 57
- .b8 98
+ .b8 48
  .b8 99
- .b8 52
+ .b8 99
+ .b8 56
  .b8 95
  .b8 48
  .b8 48
@@ -2349,10 +2349,10 @@ func_end1:
  .b8 48
  .b8 48
  .b8 48
- .b8 57
- .b8 98
+ .b8 48
  .b8 99
- .b8 52
+ .b8 99
+ .b8 56
  .b8 95
  .b8 48
  .b8 48
@@ -2524,10 +2524,10 @@ func_end1:
  .b8 48
  .b8 48
  .b8 48
- .b8 57
- .b8 98
+ .b8 48
  .b8 99
- .b8 52
+ .b8 99
+ .b8 56
  .b8 95
  .b8 48
  .b8 48
@@ -2681,10 +2681,10 @@ func_end1:
  .b8 48
  .b8 48
  .b8 48
- .b8 57
- .b8 98
+ .b8 48
  .b8 99
- .b8 52
+ .b8 99
+ .b8 56
  .b8 95
  .b8 48
  .b8 48
@@ -4052,6 +4052,239 @@ func_end1:
  .b8 102
  .b8 0
 
+ .b32 938
+ .b8 95
+ .b8 90
+ .b8 78
+ .b8 55
+ .b8 50
+ .b8 95
+ .b8 73
+ .b8 78
+ .b8 84
+ .b8 69
+ .b8 82
+ .b8 78
+ .b8 65
+ .b8 76
+ .b8 95
+ .b8 53
+ .b8 53
+ .b8 95
+ .b8 116
+ .b8 109
+ .b8 112
+ .b8 120
+ .b8 102
+ .b8 116
+ .b8 95
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 99
+ .b8 99
+ .b8 56
+ .b8 95
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 95
+ .b8 53
+ .b8 95
+ .b8 115
+ .b8 105
+ .b8 109
+ .b8 112
+ .b8 108
+ .b8 101
+ .b8 84
+ .b8 101
+ .b8 120
+ .b8 116
+ .b8 117
+ .b8 114
+ .b8 101
+ .b8 95
+ .b8 107
+ .b8 101
+ .b8 114
+ .b8 110
+ .b8 101
+ .b8 108
+ .b8 95
+ .b8 99
+ .b8 112
+ .b8 112
+ .b8 49
+ .b8 95
+ .b8 105
+ .b8 105
+ .b8 95
+ .b8 116
+ .b8 101
+ .b8 120
+ .b8 53
+ .b8 116
+ .b8 101
+ .b8 120
+ .b8 50
+ .b8 68
+ .b8 69
+ .b8 55
+ .b8 116
+ .b8 101
+ .b8 120
+ .b8 116
+ .b8 117
+ .b8 114
+ .b8 101
+ .b8 73
+ .b8 102
+ .b8 76
+ .b8 105
+ .b8 50
+ .b8 69
+ .b8 76
+ .b8 49
+ .b8 57
+ .b8 99
+ .b8 117
+ .b8 100
+ .b8 97
+ .b8 84
+ .b8 101
+ .b8 120
+ .b8 116
+ .b8 117
+ .b8 114
+ .b8 101
+ .b8 82
+ .b8 101
+ .b8 97
+ .b8 100
+ .b8 77
+ .b8 111
+ .b8 100
+ .b8 101
+ .b8 48
+ .b8 69
+ .b8 69
+ .b8 102
+ .b8 102
+ .b8 0
+
+ .b32 415
+ .b8 99
+ .b8 111
+ .b8 115
+ .b8 102
+ .b8 0
+
+ .b32 455
+ .b8 95
+ .b8 90
+ .b8 78
+ .b8 55
+ .b8 50
+ .b8 95
+ .b8 73
+ .b8 78
+ .b8 84
+ .b8 69
+ .b8 82
+ .b8 78
+ .b8 65
+ .b8 76
+ .b8 95
+ .b8 53
+ .b8 53
+ .b8 95
+ .b8 116
+ .b8 109
+ .b8 112
+ .b8 120
+ .b8 102
+ .b8 116
+ .b8 95
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 99
+ .b8 99
+ .b8 56
+ .b8 95
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 48
+ .b8 95
+ .b8 53
+ .b8 95
+ .b8 115
+ .b8 105
+ .b8 109
+ .b8 112
+ .b8 108
+ .b8 101
+ .b8 84
+ .b8 101
+ .b8 120
+ .b8 116
+ .b8 117
+ .b8 114
+ .b8 101
+ .b8 95
+ .b8 107
+ .b8 101
+ .b8 114
+ .b8 110
+ .b8 101
+ .b8 108
+ .b8 95
+ .b8 99
+ .b8 112
+ .b8 112
+ .b8 49
+ .b8 95
+ .b8 105
+ .b8 105
+ .b8 95
+ .b8 116
+ .b8 101
+ .b8 120
+ .b8 49
+ .b8 49
+ .b8 109
+ .b8 97
+ .b8 107
+ .b8 101
+ .b8 95
+ .b8 102
+ .b8 108
+ .b8 111
+ .b8 97
+ .b8 116
+ .b8 52
+ .b8 69
+ .b8 102
+ .b8 102
+ .b8 102
+ .b8 102
+ .b8 0
+
  .b32 1271
  .b8 95
  .b8 90
@@ -4082,10 +4315,10 @@ func_end1:
  .b8 48
  .b8 48
  .b8 48
- .b8 57
- .b8 98
+ .b8 48
  .b8 99
- .b8 52
+ .b8 99
+ .b8 56
  .b8 95
  .b8 48
  .b8 48
@@ -4210,141 +4443,6 @@ func_end1:
  .b8 105
  .b8 0
 
- .b32 938
- .b8 95
- .b8 90
- .b8 78
- .b8 55
- .b8 50
- .b8 95
- .b8 73
- .b8 78
- .b8 84
- .b8 69
- .b8 82
- .b8 78
- .b8 65
- .b8 76
- .b8 95
- .b8 53
- .b8 53
- .b8 95
- .b8 116
- .b8 109
- .b8 112
- .b8 120
- .b8 102
- .b8 116
- .b8 95
- .b8 48
- .b8 48
- .b8 48
- .b8 48
- .b8 57
- .b8 98
- .b8 99
- .b8 52
- .b8 95
- .b8 48
- .b8 48
- .b8 48
- .b8 48
- .b8 48
- .b8 48
- .b8 48
- .b8 48
- .b8 95
- .b8 53
- .b8 95
- .b8 115
- .b8 105
- .b8 109
- .b8 112
- .b8 108
- .b8 101
- .b8 84
- .b8 101
- .b8 120
- .b8 116
- .b8 117
- .b8 114
- .b8 101
- .b8 95
- .b8 107
- .b8 101
- .b8 114
- .b8 110
- .b8 101
- .b8 108
- .b8 95
- .b8 99
- .b8 112
- .b8 112
- .b8 49
- .b8 95
- .b8 105
- .b8 105
- .b8 95
- .b8 116
- .b8 101
- .b8 120
- .b8 53
- .b8 116
- .b8 101
- .b8 120
- .b8 50
- .b8 68
- .b8 69
- .b8 55
- .b8 116
- .b8 101
- .b8 120
- .b8 116
- .b8 117
- .b8 114
- .b8 101
- .b8 73
- .b8 102
- .b8 76
- .b8 105
- .b8 50
- .b8 69
- .b8 76
- .b8 49
- .b8 57
- .b8 99
- .b8 117
- .b8 100
- .b8 97
- .b8 84
- .b8 101
- .b8 120
- .b8 116
- .b8 117
- .b8 114
- .b8 101
- .b8 82
- .b8 101
- .b8 97
- .b8 100
- .b8 77
- .b8 111
- .b8 100
- .b8 101
- .b8 48
- .b8 69
- .b8 69
- .b8 102
- .b8 102
- .b8 0
-
- .b32 415
- .b8 99
- .b8 111
- .b8 115
- .b8 102
- .b8 0
-
  .b32 1643
  .b8 116
  .b8 114
@@ -4361,104 +4459,6 @@ func_end1:
  .b8 110
  .b8 101
  .b8 108
- .b8 0
-
- .b32 455
- .b8 95
- .b8 90
- .b8 78
- .b8 55
- .b8 50
- .b8 95
- .b8 73
- .b8 78
- .b8 84
- .b8 69
- .b8 82
- .b8 78
- .b8 65
- .b8 76
- .b8 95
- .b8 53
- .b8 53
- .b8 95
- .b8 116
- .b8 109
- .b8 112
- .b8 120
- .b8 102
- .b8 116
- .b8 95
- .b8 48
- .b8 48
- .b8 48
- .b8 48
- .b8 57
- .b8 98
- .b8 99
- .b8 52
- .b8 95
- .b8 48
- .b8 48
- .b8 48
- .b8 48
- .b8 48
- .b8 48
- .b8 48
- .b8 48
- .b8 95
- .b8 53
- .b8 95
- .b8 115
- .b8 105
- .b8 109
- .b8 112
- .b8 108
- .b8 101
- .b8 84
- .b8 101
- .b8 120
- .b8 116
- .b8 117
- .b8 114
- .b8 101
- .b8 95
- .b8 107
- .b8 101
- .b8 114
- .b8 110
- .b8 101
- .b8 108
- .b8 95
- .b8 99
- .b8 112
- .b8 112
- .b8 49
- .b8 95
- .b8 105
- .b8 105
- .b8 95
- .b8 116
- .b8 101
- .b8 120
- .b8 49
- .b8 49
- .b8 109
- .b8 97
- .b8 107
- .b8 101
- .b8 95
- .b8 102
- .b8 108
- .b8 111
- .b8 97
- .b8 116
- .b8 52
- .b8 69
- .b8 102
- .b8 102
- .b8 102
- .b8 102
  .b8 0
 
  .b32 0

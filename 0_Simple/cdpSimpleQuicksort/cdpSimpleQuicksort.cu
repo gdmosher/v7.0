@@ -96,6 +96,8 @@ __global__ void cdp_simple_quicksort(unsigned int *data, int left, int right, in
     // Now the recursive part
     int nright = rptr - data;
     int nleft  = lptr - data;
+//	printf("nleft = %d. nright = %d.\n");
+//	std::cout << "nleft = " << nleft << std::endl;
 
     // Launch a new block to sort the left part.
     if (left < (rptr-data))
@@ -148,17 +150,23 @@ void initialize_data(unsigned int *dst, unsigned int nitems)
 ////////////////////////////////////////////////////////////////////////////////
 // Verify the results.
 ////////////////////////////////////////////////////////////////////////////////
-void check_results(int n, unsigned int *results_d)
+void check_results(int n, unsigned int *results_d, bool verbose)
 {
     unsigned int *results_h = new unsigned[n];
     checkCudaErrors(cudaMemcpy(results_h, results_d, n*sizeof(unsigned), cudaMemcpyDeviceToHost));
 
-    for (int i = 1 ; i < n ; ++i)
-        if (results_h[i-1] > results_h[i])
-        {
-            std::cout << "Invalid item[" << i-1 << "]: " << results_h[i-1] << " greater than " << results_h[i] << std::endl;
-            exit(EXIT_FAILURE);
-        }
+	std::cout << std::endl;
+	for (int i = 1; i < n; ++i) {
+		if (verbose)
+		{
+			std::cout << "Result [" << i-1 << "]: " << results_h[i - 1] << "  " << results_h[i] << std::endl;
+		}
+		if (results_h[i - 1] > results_h[i])
+		{
+			std::cout << "Invalid item[" << i - 1 << "]: " << results_h[i - 1] << " greater than " << results_h[i] << std::endl;
+			exit(EXIT_FAILURE);
+		}
+	}
 
     std::cout << "OK" << std::endl;
     delete[] results_h;
@@ -270,7 +278,7 @@ int main(int argc, char **argv)
 
     // Check result
     std::cout << "Validating results: ";
-    check_results(num_items, d_data);
+    check_results(num_items, d_data, verbose);
 
     free(h_data);
     checkCudaErrors(cudaFree(d_data));

@@ -498,8 +498,8 @@ static void usage()
 // Host side entry
 int main(int argc, char *argv[])
 {
-    int size = 5000;     // TODO: make this 1e6
-    unsigned int seed = 100;    // TODO: make this 0
+    int size = 5000;     // TODO: make this 1e6, was 5000
+    unsigned int seed = 100;    // TODO: make this 0, was 100
     int debug = 0;
     int loop = 0;
     int verbose = 0;
