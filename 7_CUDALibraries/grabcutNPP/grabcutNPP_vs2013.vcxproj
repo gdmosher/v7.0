@@ -14,7 +14,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{997E0757-EA74-4A4E-A0FC-47D8C8831A15}</ProjectGuid>
+    <ProjectGuid>{EA3E03FF-53C5-4689-8CE5-E462C440D43C}</ProjectGuid>
     <RootNamespace>grabcutNPP_vs2013</RootNamespace>
     <ProjectName>grabcutNPP</ProjectName>
     <CudaToolkitCustomDir />
@@ -99,13 +99,13 @@
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
     <Link>
       <AdditionalDependencies>freeimage.lib;%(AdditionalDependencies)</AdditionalDependencies>
-<AdditionalDependencies>glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <Link>
       <AdditionalDependencies>freeimage64.lib;%(AdditionalDependencies)</AdditionalDependencies>
-<AdditionalDependencies>glew64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
