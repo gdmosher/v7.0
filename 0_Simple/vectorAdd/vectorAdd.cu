@@ -19,6 +19,7 @@
 
 #include <stdio.h>
 
+
 // For the CUDA runtime routines (prefixed with "cuda_")
 #include <cuda_runtime.h>
 
@@ -38,6 +39,26 @@ vectorAdd(const float *A, const float *B, float *C, int numElements)
         C[i] = A[i] + B[i];
     }
 }
+__global__ void helloCUDA(float f) { printf("Hello thread %d, f=%f\n", threadIdx.x, f); }
+
+#include <stdlib.h>
+#include <stdio.h>
+__global__ void mallocTest() { 
+	size_t size = 123; 
+	char* ptr = (char*)malloc(size); 
+	memset(ptr, 0, size); 
+	printf("Thread %d got pointer: %p\n", threadIdx.x, ptr); 
+	free(ptr); 
+} 
+int main2() { 
+	// Set a heap size of 128 megabytes. Note that this must 
+	// be done before any kernel is launched. 
+	cudaDeviceSetLimit(cudaLimitMallocHeapSize, 128*1024*1024); 
+	mallocTest<<<1, 5>>>(); 
+	cudaDeviceSynchronize(); 
+	return 0; 
+}
+
 
 /**
  * Host main routine
@@ -45,6 +66,9 @@ vectorAdd(const float *A, const float *B, float *C, int numElements)
 int
 main(void)
 {
+	helloCUDA << <1, 5 >> >(1.2345f);
+	cudaDeviceSynchronize();
+	main2();
     // Error code to check return values for CUDA calls
     cudaError_t err = cudaSuccess;
 
@@ -152,6 +176,7 @@ main(void)
     // Verify that the result vector is correct
     for (int i = 0; i < numElements; ++i)
     {
+//		h_C[numElements-1] += 1;			// make the test fail
         if (fabs(h_A[i] + h_B[i] - h_C[i]) > 1e-5)
         {
             fprintf(stderr, "Result verification failed at element %d!\n", i);
@@ -205,7 +230,11 @@ main(void)
         exit(EXIT_FAILURE);
     }
 
-    printf("Done\n");
+	printf("Done\n");
+
+	printf("Press <Enter> to continue...");
+	getchar();
+	printf("Done\n");
     return 0;
 }
 
