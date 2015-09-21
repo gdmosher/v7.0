@@ -153,6 +153,8 @@ sql/
 ClientBin/
 [Ss]tyle[Cc]op.*
 ~$*
+~AutoRecover*
+*.pgm	
 *~
 *.dbmdl
 *.dbproj.schemaview
