@@ -179,8 +179,10 @@ int main(int argc, char **argv)
 
 //  printf("Total clocks = %lu\n", (maxEnd - minStart));
 	printf(" Host clicks = %lu\n", host_elap);
-//	clock_t t = maxEnd - minStart;
-//	printf("It took me %d clicks (%f seconds).\n", t, ((float)t) / CLOCKS_PER_SEC);
+	//	clock_t t = maxEnd - minStart;
+	//	printf("It took me %d clicks (%f seconds).\n", t, ((float)t) / CLOCKS_PER_SEC);
+	clock_t t = maxEnd - minStart;
+	printf("It took me %d clicks (%f seconds).\n", t, ((float)t) / CLOCKS_PER_SEC);
 
     // cudaDeviceReset causes the driver to clean up all state. While
     // not mandatory in normal operation, it is good practice.  It is also
