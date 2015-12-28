@@ -82,6 +82,7 @@ void *d_vbo_buffer = NULL;
 
 float g_fAnim = 0.0;
 float g_fAnimIncrement = 0.01f;
+float g_fAnimIncrementHold = 0.0f;
 float g_Zoom = 1.0f;
 float g_freq = 2.0f;	// was 1.0
 int	 g_func = 3;		// was 1
@@ -119,6 +120,7 @@ void createVBO(GLuint *vbo, struct cudaGraphicsResource **vbo_res,
                unsigned int vbo_res_flags);
 void deleteVBO(GLuint *vbo, struct cudaGraphicsResource *vbo_res);
 
+void initMenus();
 // rendering callbacks
 void display();
 void keyboard(unsigned char key, int x, int y);
@@ -160,7 +162,7 @@ __global__ void simple_vbo_kernel(float4 *pos, unsigned int width, unsigned int 
 	else{
 		w = sinf(u*freq + time) *cosf(v*freq + time) * 0.5f;
 		// (-4 .. 4) + time
-		w = u;// .00f;		// make it a plane
+		if (func > 0) w = u;// .00f;		// make it a plane
 	}
     // write output vertex
     pos[y*width+x] = make_float4(u, w, v, g_Zoom);		// 1.0f is like a zoom level 0.1f is much closer
@@ -310,7 +312,8 @@ bool initGL(int *argc, char **argv)
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
     glutInitWindowSize(window_width, window_height);
     glutCreateWindow("Cuda GL Interop (VBO)");
-    glutDisplayFunc(display);
+	initMenus();
+	glutDisplayFunc(display);
     glutKeyboardFunc(keyboard);
     glutMotionFunc(motion);
     glutTimerFunc(REFRESH_DELAY, timerEvent,0);
@@ -399,7 +402,8 @@ bool runTest(int argc, char **argv, char *ref_file)
             cudaGLSetGLDevice(gpuGetMaxGflopsDeviceId());
         }
 
-        // register callbacks
+		initMenus();
+		// register callbacks
         glutDisplayFunc(display);
         glutKeyboardFunc(keyboard);
         glutMouseFunc(mouse);
@@ -431,7 +435,7 @@ bool runTest(int argc, char **argv, char *ref_file)
 void runCuda(struct cudaGraphicsResource **vbo_resource)
 {
     // map OpenGL buffer object for writing from CUDA
-    float4 *dptr;
+    float4 *dptr;							// declare a pointer to an array of float4's
     checkCudaErrors(cudaGraphicsMapResources(1, vbo_resource, 0));
     size_t num_bytes;
     checkCudaErrors(cudaGraphicsResourceGetMappedPointer((void **)&dptr, &num_bytes,
@@ -558,6 +562,20 @@ void display()
     glRotatef(rotate_x, 1.0, 0.0, 0.0);
     glRotatef(rotate_y, 0.0, 1.0, 0.0);
 
+	// cube from particles.cpp
+	glColor3f(1.0, 1.0, 1.0);
+	glutWireCube(2.0);
+	// collider from particle.cpp
+	glPushMatrix();
+//	float3 p = psystem->getColliderPos();
+//	glTranslatef(p.x, p.y, p.z);
+	glTranslatef(0.0, 0.0, 0.0);
+	glColor3f(1.0, 0.0, 0.0);
+//	glutSolidSphere(psystem->getColliderRadius(), 20, 10);
+	glutWireSphere(.5, 20, 10);
+	glPopMatrix();
+
+
     // render from the vbo
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexPointer(4, GL_FLOAT, 0, 0);
@@ -581,7 +599,7 @@ void display()
 		else { colorPhase = 1; }
 		break;
 	}
-	printf("RGB Colors = %f %f %f ColorPhase = %d\n", r, g, b, colorPhase);
+//	printf("RGB Colors = %f %f %f ColorPhase = %d\n", r, g, b, colorPhase);
     glDrawArrays(GL_POINTS, 0, mesh_width * mesh_height);
     glDisableClientState(GL_VERTEX_ARRAY);
 
@@ -641,12 +659,14 @@ void keyboard(unsigned char key, int /*x*/, int /*y*/)
 		g_Zoom = 1.0f;
 		rotate_x = 0.0;
 		rotate_y = 0.0;
+		translate_z = -3.0;
 		return;
 	case ('b') :    // backwards-forwards
 		g_fAnimIncrement = -g_fAnimIncrement;
+		g_fAnimIncrementHold = -g_fAnimIncrementHold;
 		return;
 	case ('f') :    // function
-		if (g_func == 3) { g_func = 1; }
+		if (g_func == 3) { g_func = 0; }
 		else { g_func += 1; }
 		return;
 	case ('s') :    //  slow down
@@ -669,9 +689,19 @@ void keyboard(unsigned char key, int /*x*/, int /*y*/)
 		return;
 	case (' ') :    // pause-resume
 		if (g_fAnimIncrement == 0.0)
-			g_fAnimIncrement = 0.001f;
-		else
+			g_fAnimIncrement = g_fAnimIncrementHold;
+		else {
+			g_fAnimIncrementHold = g_fAnimIncrement;
 			g_fAnimIncrement = 0.0;
+		}
+		return;
+	case (13):
+		if (g_fAnimIncrement == 0.0)
+			g_fAnim += g_fAnimIncrementHold;		// g_fAnim is the time
+		else {
+			g_fAnimIncrementHold = g_fAnimIncrement;
+			g_fAnimIncrement = 0.0;
+		}
 		return;
 	case (27) :
     #if defined(__APPLE__) || defined(MACOSX)
@@ -682,6 +712,37 @@ void keyboard(unsigned char key, int /*x*/, int /*y*/)
     #endif
 	}
 }
+
+void mainMenu(int i)
+{
+	keyboard((unsigned char)i, 0, 0);
+}
+
+void initMenus()
+{
+	glutCreateMenu(mainMenu);
+//	glutAddMenuEntry("", '');
+//	glutAddMenuEntry("Reset block [1]", '1');
+//	glutAddMenuEntry("Reset random [2]", '2');
+//	glutAddMenuEntry("Add sphere [3]", '3');
+	glutAddMenuEntry("Reset [r]", 'r');
+	glutAddMenuEntry("Backward/Forward [b]", 'b');
+	glutAddMenuEntry("Function select  [f]", 'f');
+	glutAddMenuEntry("Frequency up   [d]", 'd');
+	glutAddMenuEntry("Frequency down [s]", 's');
+	glutAddMenuEntry("Slow down [-]", '-');
+	glutAddMenuEntry("Speed up  [+]", '+');
+//	glutAddMenuEntry("Toggle point rendering [p]", 'p');
+	glutAddMenuEntry("Pause/Resume [ ]", ' ');
+	glutAddMenuEntry("Step animation [ret]", 13);
+	glutAddMenuEntry("Zoom in [i]", 'i');
+	glutAddMenuEntry("Zoom out[o]", 'o');
+
+//	glutAddMenuEntry("Toggle sliders [h]", 'h');
+	glutAddMenuEntry("Quit (esc)", '\033');
+	glutAttachMenu(GLUT_MIDDLE_BUTTON);
+}
+
 void  gamepad(unsigned int buttonMask, int x, int y, int z){
 
 	if (buttonMask & GLUT_JOYSTICK_BUTTON_A) {
@@ -728,11 +789,11 @@ void motion(int x, int y)
         rotate_x += dy * 0.2f;
         rotate_y += dx * 0.2f;
     }
-    else if (mouse_buttons & 4)
+    else if (mouse_buttons & 4)			// GLUT_RIGHT_BUTTON
     {
         translate_z += dy * 0.01f;
     }
-
+	
 	mouse_old_x = x;
     mouse_old_y = y;
 }
