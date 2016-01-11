@@ -322,6 +322,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DaveConsoleApplication1", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "daveGL1", "2_Graphics\daveGL1\daveGL1_vs2013.vcxproj", "{6BA55C4C-B23C-4164-91DB-7625795159D2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "particles-v2", "5_Simulations\particles-v2\particles-v2_vs2013.vcxproj", "{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -2524,6 +2526,21 @@ Global
 		{6BA55C4C-B23C-4164-91DB-7625795159D2}.Release|Win32.ActiveCfg = Release|x64
 		{6BA55C4C-B23C-4164-91DB-7625795159D2}.Release|x64.ActiveCfg = Release|x64
 		{6BA55C4C-B23C-4164-91DB-7625795159D2}.Release|x64.Build.0 = Release|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Debug|Mixed Platforms.Build.0 = Debug|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Debug|Win32.ActiveCfg = Debug|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Debug|x64.ActiveCfg = Debug|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Debug|x64.Build.0 = Debug|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Release OpenMP|Mixed Platforms.ActiveCfg = Release|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Release OpenMP|Mixed Platforms.Build.0 = Release|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Release OpenMP|Win32.ActiveCfg = Release|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Release OpenMP|x64.ActiveCfg = Release|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Release OpenMP|x64.Build.0 = Release|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Release|Mixed Platforms.ActiveCfg = Release|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Release|Mixed Platforms.Build.0 = Release|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Release|Win32.ActiveCfg = Release|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Release|x64.ActiveCfg = Release|x64
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2681,5 +2698,6 @@ Global
 		{01386238-CB6D-43EA-9F24-49F2348AA144} = {4CAE483C-DF1A-4E1A-8684-8A484D847F69}
 		{7931CAC5-D213-44FC-8C9F-AED56852172E} = {E8CE8E47-6261-4934-A2C5-9F3148295C02}
 		{6BA55C4C-B23C-4164-91DB-7625795159D2} = {332344E8-DE8A-4FAF-9858-DC3C0D18F0F9}
+		{26A2D5E3-E88A-4B72-BC80-E6CF3F0BC487} = {BB453C5A-ECF6-4370-8388-122E684BBCC4}
 	EndGlobalSection
 EndGlobal
